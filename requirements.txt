@@ -1,0 +1,7 @@
+torch==2.5.1
+torchtune==0.5.0
+sentencepiece==0.1.99
+datasets==3.2.0
+keras==3.8.0
+zstandard==0.23.0
+python==3.11
