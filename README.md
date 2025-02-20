@@ -1,7 +1,7 @@
 ## Large Language Model From Power Law Decoder Representations (PLDR-LLM) with KV-cache and G-cache
 
 This repository is the implementation of the Large Language Model From Power Law Decoder Representations (PLDR-LLM) with KV-cache and G-cache detailed in the research article: 
-*PLDR-LLMs Learn A Generalizable Tensor Operator That Can Replace Its Own Deep Neural Net At Inference*.
+[PLDR-LLMs Learn A Generalizable Tensor Operator That Can Replace Its Own Deep Neural Net At Inference](https://arxiv.org/abs/2502.13502).
 
 Large Language Model From Power Law Decoder Representations is a deductive-inductive LLM that utilizes the decoder layers that were first developed for [Power Law Graph Transformer (PLGT)](https://arxiv.org/abs/2107.02039). It was first introduced in the research article: [PLDR-LLM: Large Language Model From Power Law Decoder Representations](https://arxiv.org/abs/2410.16703).
 
@@ -117,7 +117,7 @@ import pldr_data_prep
 inp_obj = pldr_data_prep.dist_pldr_data_prep(rank=0,
                                              WORLD_SIZE=1,
                                              load_dataset=False,
-                                             tok_model = "/path/to/sentencepiece/tokenizer.model",
+                                             tok_model = "/path/to/sentencepiece/tokenizer.model"
                                             )
 
 ```
@@ -219,4 +219,19 @@ torch.stack([t[4][0] for t in att_weigths])
 Output of the residual network **A** (# decoder layers, # attention heads, $d_k$, $d_k$):
 ```python
 torch.stack([t[-1][0] for t in kvcache_lst])
+```
+
+#### Citation:
+
+Please cite this work as:
+```bibtex
+@misc{gokden2025pldrllmkvgcache,
+      title={PLDR-LLMs Learn A Generalizable Tensor Operator That Can Replace Its Own Deep Neural Net At Inference}, 
+      author={Burc Gokden},
+      year={2025},
+      eprint={2502.13502},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2502.13502}, 
+}
 ```
