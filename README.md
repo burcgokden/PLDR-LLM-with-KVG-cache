@@ -13,6 +13,13 @@ The PLDR-LLM with KV-cache and G-cache support was implemented with Pytorch. For
 
 The output and training procedure of PLDR-LLM is similar to LLMs that utilize decoders with SDPA. The inductive output is same as the transductive output of an LLM with SDPA. At inference time, it is straightforward to replace an LLM with SDPA with PLDR-LLM.
 
+### How to reach pretrained PLDR-LLMs with KV-cache and G-cache:
+
+- The PLDR-LLMs that were pretrained and studied in the [research paper](https://arxiv.org/abs/2502.13502) can be found at  
+[huggingface.co/fromthesky](https://huggingface.co/fromthesky) (PLDR-LLM-v51, PLDR-LLM-v51G and PLDR-LLM-v51-DAG versions).
+- A fork of the LM Evaluation Harness Suite with PLDR-LLM support with Pytorch is available at  
+[lm-evaluation-harness-with-PLDR-LLM-kvg-cache](https://github.com/burcgokden/lm-evaluation-harness-with-PLDR-LLM-kvg-cache).
+
 ### Key Features:
 - Support for KV-cache and G-cache for faster inference.
 - A flexible interface to build, customize and train PLDR-LLMs with deep layers of decoders by specifying hyperparameters such as number of layers, number of attention heads, embedding dimension, vocabulary size and more through a dictionary of hyperparameters.
