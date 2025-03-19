@@ -828,7 +828,7 @@ class dist_pldr_model_e2e:
                 cached=True     
 
             if enable_Gcache:
-                    Gcachelst=[[t[0],t[4]] for t in att_weights]
+                Gcachelst=[[t[0],t[4]] for t in att_weights]
 
             predictions = predictions[:, -1, :]  # (1, seq_len, vocab_size) -> (1, vocab_size)
             

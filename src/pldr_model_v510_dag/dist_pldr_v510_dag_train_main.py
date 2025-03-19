@@ -68,6 +68,7 @@ def fsdp_pldr_main(rank, world_size, args):
     padding_type=args.padding_type
     trust_remote_code=args.trust_remote_code
     shuffle_set=args.shuffle_set
+    shuffle_seed=args.shuffle_seed
 
     if not shuffle_set:
         logger.info(f"(RANK {rank}):{datetime.now(pst_time)}: Dataset is not shuffled.")
@@ -89,6 +90,7 @@ def fsdp_pldr_main(rank, world_size, args):
                                             test_offset=test_offset,
                                             tok_model=tok_model,
                                             shuffle_set=shuffle_set,
+                                            shuffle_seed=shuffle_seed,
                                             MAX_LENGTH=MAX_LENGTH,
                                             batch_agg_count=batch_agg_count,
                                             padding_type=padding_type,
@@ -255,6 +257,8 @@ if __name__ == '__main__':
                     help='DATA PREP: Offset value to slice test data (Default: None)')
     parser.add_argument('--shuffle_set', action='store_true', default=False,
                     help='DATA PREP: Flag to enable shuffling dataset (Default: False)')
+    parser.add_argument('--shuffle_seed', type=int, default=None, metavar='SHUFFLE_SEED',
+                    help='DATA PREP: randomization seed for shuffling dataset. (Default: None)')
     parser.add_argument('--batch_agg_count', type=int, default=100, metavar='BATCH-AGG-CNT',
                     help='DATA PREP: Multiplier to batchsize for concatenating samples (Default: 100)')
     parser.add_argument('--padding_type', type=str, choices=['pack', 'pad', 'nopad'], default='pack', metavar='PADDING-TYPE',

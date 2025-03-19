@@ -37,7 +37,8 @@ class dist_pldr_data_prep:
                  val_offset=None,
                  test_offset=None, 
                  tok_model = "/path/to/tokenizer/model",
-                 shuffle_set=False, 
+                 shuffle_set=False,
+                 shuffle_seed=None, 
                  MAX_LENGTH=None,
                  batch_agg_count=None, 
                  padding_type='pack',
@@ -45,9 +46,11 @@ class dist_pldr_data_prep:
                  ):
         '''
         Args:
+            rank: Index of the device to run.
+            WORLD_SIZE: Total number of ranks.
             BUFFER_SIZE: Buffer size for shuffling
             BATCH_SIZE: Batch size for dataset
-            dataset_file: path to huggingface/tensorflow dataset
+            dataset_file: path to huggingface dataset
             split_names: Names for split if they are different from [train, validation, test].
             load_dataset: if True load the dataset
             load_from_train: load from train split only
@@ -56,7 +59,8 @@ class dist_pldr_data_prep:
             val_offset: input is single integer as offset, None skips validation dataset
             test_offset: input is single integer as offset, None skips test dataset.
             tok_model: file path for tokenizer model
-            shuffle_set: If True, shuffle the dataset while loading
+            shuffle_set: If True, shuffle the dataset while loading.
+            shuffle_seed: randomization seed for shuffling dataset.
             MAX_LENGTH: maximum number of tokens in each sample.
             batch_agg_count: the multiplier for batch_size to densify batches by concatenating
             padding_type: type of completing partially filled sample up to MAX_LENGTH. pack completes with more tokens
@@ -78,6 +82,7 @@ class dist_pldr_data_prep:
         self.short_chunk=None
         self.padding_type=padding_type
         self.trust_remote_code=trust_remote_code
+        self.shuffle_seed=shuffle_seed
 
         #load dataset
         if split_names is not None:
@@ -311,7 +316,7 @@ class dist_pldr_data_prep:
         ds=ds.map(function=self.tokenize_fun, batched=False)
         if shuffle_set:
             logger.info(f"(Rank {self.rank}) Shuffling Dataset after Tokenization")
-            ds=ds.shuffle(writer_batch_size=self.BUFFER_SIZE)
+            ds=ds.shuffle(seed=self.shuffle_seed, buffer_size=self.BUFFER_SIZE)
         
         logger.info(f"(Rank {self.rank}) Batching by concatenating and chunking samples with padding style: {self.padding_type}.")
         
